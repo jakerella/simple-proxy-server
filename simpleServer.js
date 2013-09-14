@@ -10,6 +10,8 @@ var http = require("http"),
     host = process.argv[3] || "localhost",
     port = process.argv[4] || 8686;
 
+console.log("Starting simple-proxy-server... ".cyan);
+
 httpProxy.createServer(proxyPort, host).listen(parseInt(port, 10));
 
 http.createServer(function(request, response) {
@@ -27,7 +29,7 @@ http.createServer(function(request, response) {
       return;
     }
 
-    if (fs.statSync(filename).isDirectory()) filename += '/index.html';
+    if (fs.statSync(filename).isDirectory()) filename = path.join(filename, "/index.html");
 
     fs.readFile(filename, "binary", function(err, file) {
       if(err) {
@@ -48,7 +50,7 @@ http.createServer(function(request, response) {
 }).listen(proxyPort);
 
 console.log(
-    "Static file server running at => " + (host + ":" + port).green.bold + 
-    "\n   serving files from " + rootDir + 
+    "    simple-proxy-server running at => ".cyan + (host + ":" + port).green.bold + 
+    ("\n    serving files from " + rootDir).cyan + 
     "\nCTRL + C to shutdown".yellow.bold
 );
