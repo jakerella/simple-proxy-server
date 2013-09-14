@@ -1,7 +1,7 @@
 {
     "name": "simple-http-proxy-server",
     "description": "Run a simple proxy server with proper mime type support for static sites",
-    "version":"0.1.0",
+    "version":"0.1.1",
     "author": {
         "name" : "Jordan Kasper"
     },
