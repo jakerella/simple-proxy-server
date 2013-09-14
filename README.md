@@ -42,7 +42,7 @@ Then run `nserve` from any directory you want to serve up:
 
 After cloning the repo (step 1), and installing dependencies (step 2), change to the server directory and do this:
 
-`node simpleServer.js .`
+`node simpleServer.js ./test`
 
 Then hit http://localhost:8686 and you should see a picture of Hobbes (from the Calvin and Hobbes comic).
 
