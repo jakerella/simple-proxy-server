@@ -27,7 +27,7 @@ portLookupCallback = function() {
       var uri = url.parse(request.url).pathname,
           filename = path.join(rootDir, uri);
       
-      console.log(("Handling new request: " + uri).white);
+      console.log(("Handling " + request.method + " request: " + uri).white);
 
       fs.exists(filename, function(exists) {
         if(!exists) {
@@ -48,8 +48,6 @@ portLookupCallback = function() {
             response.end();
             return;
           }
-
-          console.log(("Serving file: " + filename).green);
 
           response.writeHead(200, {"Content-Type": mime.lookup(filename)});
           response.write(file, "binary");
