@@ -20,9 +20,9 @@ Simply add the host to your `/etc/hosts` file (`C:/Windows/System32/drivers/etc/
 ...
 ```
 
-Then start your server: `node /path/to/simple-proxy-server/simpleServer.js /path/to/project somelocaldomain.com` and hit http://somelocaldomain.com:8686
+Then start your server: `node /path/to/simple-proxy-server/simpleServer.js /path/to/project --host=somelocaldomain.com` and hit http://somelocaldomain.com:8686
 
-(Or specify the port as well: `node /path/to/simple-proxy-server/simpleServer.js /path/to/project somelocaldomain.com 9999` and hit http://somelocaldomain.com:9999)
+(Or specify the port as well: `node /path/to/simple-proxy-server/simpleServer.js /path/to/project --host=somelocaldomain.com --port=9999` and hit http://somelocaldomain.com:9999)
 
 
 ### Making it easier with a symlink
