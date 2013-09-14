@@ -6,7 +6,7 @@ var http = require("http"),
     fs = require("fs"),
     mime = require("mime"),
     proxyPort = 9000,
-    rootDir = process.argv[2] || __dirname,
+    rootDir = process.argv[2] || process.cwd(),
     host = process.argv[3] || "localhost",
     port = process.argv[4] || 8686;
 
@@ -47,4 +47,8 @@ http.createServer(function(request, response) {
   });
 }).listen(proxyPort);
 
-console.log("Static file server running at => " + (host + ":" + port).green.bold + "\nCTRL + C to shutdown".yellow.bold);
+console.log(
+    "Static file server running at => " + (host + ":" + port).green.bold + 
+    "\n   serving files from " + rootDir + 
+    "\nCTRL + C to shutdown".yellow.bold
+);
