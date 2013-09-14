@@ -7,7 +7,7 @@ Run a simple proxy server with proper mime type support for static sites
 
 1. Clone the repo: `git clone git@github.com:jakerella/simple-proxy-server.git`
 2. Install (the very few) dependencies: `npm install`
-3. Run the server: `node /path/to/project`
+3. Run the server: `node /path/to/simple-proxy-server/simpleServer.js /path/to/project`
 4. Hit your local site at http://localhost:8686
 
 ### Specifying a hostname
@@ -20,9 +20,9 @@ Simply add the host to your `/etc/hosts` file (`C:/Windows/System32/drivers/etc/
 ...
 ```
 
-Then start your server: `node /path/to/project somelocaldomain.com` and hit http://somelocaldomain.com:8686
+Then start your server: `node /path/to/simple-proxy-server/simpleServer.js /path/to/project somelocaldomain.com` and hit http://somelocaldomain.com:8686
 
-(Or specify the port as well: `node /path/to/project somelocaldomain.com 9999` and hit http://somelocaldomain.com:9999)
+(Or specify the port as well: `node /path/to/simple-proxy-server/simpleServer.js /path/to/project somelocaldomain.com 9999` and hit http://somelocaldomain.com:9999)
 
 
 ### Making it easier with a symlink
