@@ -10,6 +10,13 @@ Run a simple proxy server with proper mime type support for static sites
 3. Run the server: `node /path/to/simple-proxy-server/simpleServer.js /path/to/project`
 4. Hit your local site at http://localhost:8686
 
+```
+node simpleServer.js [serverRootDirectory] [options]
+Options:
+  --host      hostname to use ["localhost"]
+  --port      port number to use [8686]
+```
+
 ### Specifying a hostname
 
 Simply add the host to your `/etc/hosts` file (`C:/Windows/System32/drivers/etc/hosts` on Windows):
