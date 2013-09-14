@@ -37,3 +37,17 @@ Then run `nserve` from any directory you want to serve up:
 ~$ cd /path/to/project/
 ~$ nserve . somelocaldomain.com
 ```
+
+## Want to test it out?
+
+After cloning the repo (step 1), and installing dependencies (step 2), change to the server directory and do this:
+
+`node simpleServer.js .`
+
+Then hit http://localhost:8686 and you should see a picture of Hobbes (from the Calvin and Hobbes comic).
+
+##Author
+
+I only wrote pieces of this... but it's seriously so simple that I can't claim credit for much. If you have quesitons, submit an issue or contact me.
+
+Jordan Kasper ([@jakerella](node /path/to/simple-proxy-server/simpleServer.js))
