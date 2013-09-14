@@ -1,0 +1,8 @@
+{
+    "name": "simple-http-proxy-server",
+    "version":"0.0.1",
+    "dependencies": {
+        "http-proxy": "~0.10.3",
+        "colors": "*"
+    }
+}
