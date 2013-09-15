@@ -8,7 +8,7 @@ Run a simple proxy server with proper mime type support for static sites
 1. Clone the repo: `git clone git@github.com:jakerella/simple-proxy-server.git`
 2. Install (the very few) dependencies: `npm install`
 3. Run the server: `node /path/to/simple-proxy-server/simpleServer.js --rootDir=/path/to/project`
-4. Hit your local site at http://localhost:8686
+4. Hit your local site at [http://localhost:8686](http://localhost:8686)
 
 ```
 node simpleServer.js [serverRootDirectory] [options]
@@ -73,7 +73,7 @@ After cloning the repo (step 1), and installing dependencies (step 2), change to
 
 `node simpleServer.js --rootDir=./test`
 
-Then hit http://localhost:8686 and you should see a picture of Hobbes (from the Calvin and Hobbes comic).
+Then hit [http://localhost:8686](http://localhost:8686) and you should see a picture of Hobbes (from the Calvin and Hobbes comic).
 
 ##Author
 
