@@ -110,7 +110,7 @@ updateSysHostsFile = function(sysHostsFile, hosts, cb) {
 
             if (newHosts.length) {
                 child = sudo(
-                    [ "node", "updateHosts.js", sysHostsFile, newHosts.join(";") ],
+                    [ "node", __dirname + "/updateHosts.js", sysHostsFile, newHosts.join(";") ],
                     { prompt: "We need your password in order to update the system hosts file.\nYour static web server will NOT be run under sudo.\nPassword? " }
                 );
                 child.stdout.on("data", function (data) {
