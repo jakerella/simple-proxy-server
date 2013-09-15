@@ -1,0 +1,6 @@
+{
+    "hosts": [
+        { "rootDir": "./test", "host": "localhost", "port": 9999 },
+        { "rootDir": "./test", "host": "localhost", "port": 9898 }
+    ]
+}
