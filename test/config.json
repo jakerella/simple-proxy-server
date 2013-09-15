@@ -1,6 +1,8 @@
 {
     "hosts": [
         { "rootDir": "./test", "host": "localhost", "port": 9999 },
-        { "rootDir": "./test", "host": "localhost", "port": 9898 }
-    ]
+        { "rootDir": "./test", "host": "localhost", "port": 9898 },
+        { "rootDir": "./test", "host": "dev.example.com", "port": 9797 }
+    ],
+    "sysHostsFile": "/etc/hosts"
 }

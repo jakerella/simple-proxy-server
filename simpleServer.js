@@ -5,18 +5,19 @@ var http = require("http"),
     path = require("path"),
     fs = require("fs"),
     mime = require("mime"),
+    sudo = require("sudo"),
     
     // app vars
     options = {},
 
     // internal functions
-    main, prepareServer, startProxy;
+    main, startHosts, prepareServer, startProxy;
 
 
 main = function(args) {
     var i, l, m;
 
-    console.log("Starting simple-proxy-server".white + "\nPress CTRL + C to shutdown".yellow.bold);
+    console.log("Starting simple-proxy-server".white + "\nPress CTRL + C to shutdown".blue.bold);
 
     // Prepare options
     for (i=2, l=args.length; i<l; ++i) {
@@ -53,8 +54,12 @@ main = function(args) {
                     process.exit(400);
                 }
 
-                for (i=0, l=configJSON.hosts.length; i<l; ++i) {
-                    prepareServer(configJSON.hosts[i]);
+                if (configJSON.sysHostsFile) {
+                    updateSysHostsFile(configJSON.sysHostsFile, configJSON.hosts, function() {
+                        startHosts(configJSON.hosts);
+                    });
+                } else {
+                    startHosts(configJSON.hosts);
                 }
             });
         });
@@ -70,6 +75,66 @@ main = function(args) {
     }
 };
 
+updateSysHostsFile = function(sysHostsFile, hosts, cb) {
+    if (/windows/i.test(process.platform)) {
+        console.log("WARNING: We can't update yoru system hosts file on Windows (yet), please do so yourself!".yellow.bold);
+        cb(false);
+        return;
+    }
+
+    console.log(("Reading system hosts file: " + sysHostsFile + "...").white);
+    fs.exists(sysHostsFile, function(exists) {
+        if(!exists) {
+            console.log(("WARNING: Non-existent system hosts file provided! (" + sysHostsFile + ")").yellow.bold);
+            cb(false);
+            return;
+        }
+
+        fs.readFile(sysHostsFile, "binary", function(err, file) {
+            var i, l, re, child,
+                newHosts = [];
+
+            if(err) {
+                console.log(("WARNING: Unable to read system hosts file! (" + sysHostsFile + ")").yellow.bold);
+                cb(false);
+                return;
+            }
+
+            // TODO: check to see if we need an update
+            for (i=0, l=hosts.length; i<l; ++i) {
+                re = new RegExp("(?:\\s)" + hosts[i].host + "(?:$|\\s)", "i");
+                if (!re.test(file)) {
+                    newHosts.push(hosts[i].host);
+                }
+            }
+
+            if (newHosts.length) {
+                child = sudo(
+                    [ "node", "updateHosts.js", sysHostsFile, newHosts.join(";") ],
+                    { prompt: "We need your password in order to update the system hosts file.\nYour static web server will NOT be run under sudo.\nPassword? " }
+                );
+                child.stdout.on("data", function (data) {
+                    console.log(data.toString());
+                });
+                child.on("close", function (code) {
+                    cb(!code);
+                    return;
+                });
+
+            } else {
+                cb(true);
+                return;
+            }
+
+        });
+    });
+};
+
+startHosts = function(hosts) {
+    for (i=0, l=hosts.length; i<l; ++i) {
+        prepareServer(hosts[i]);
+    }
+};
 
 // This is the main functionality to start a single server
 prepareServer = function(options) {

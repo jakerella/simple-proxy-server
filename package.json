@@ -9,6 +9,7 @@
     "dependencies": {
         "http-proxy": "~0.10.3",
         "colors": "*",
-        "mime": "*"
+        "mime": "*",
+        "sudo": "*"
     }
 }
