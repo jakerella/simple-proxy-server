@@ -18,21 +18,6 @@ Options:
   --port      port number to use [8686]
 ```
 
-### Specifying a hostname
-
-Simply add the host to your `/etc/hosts` file (`C:/Windows/System32/drivers/etc/hosts` on Windows):
-
-```
-...
-127.0.0.1    somelocaldomain.com
-...
-```
-
-Then start your server: `node /path/to/simple-proxy-server/simpleServer.js --rootDir=/path/to/project --host=somelocaldomain.com` and hit http://somelocaldomain.com:8686
-
-(Or specify the port as well: `node /path/to/simple-proxy-server/simpleServer.js --rootDir=/path/to/project --host=somelocaldomain.com --port=9999` and hit http://somelocaldomain.com:9999)
-
-
 ### Specifying a config file
 
 The config file can be used to specify options for multiple hosts, all of which will be started using the same terminal session. Think of this as the equivalent of a vhosts file for other web server applications.
@@ -54,6 +39,30 @@ Then when starting up the server use:
 `~$ node /path/to/simple-proxy-server/simpleServer.js --config=/path/to/config.json`
 
 All log output will be in the same terminal window (from all servers). Pressing ctrl + c will kill all server sessions!
+
+
+### Using custom hostnames
+
+You can either add your host names (i.e. somelocaldomain.com) to your system hosts file (`/etc/hosts` on Linux, `C:/Windows/System32/drivers/etc/hosts` on Windows):
+
+`127.0.0.1    somelocaldomain.com`
+
+Or you can specify the system hosts file in your config file (see above) and then the module will attempt to add any necessary lines for you (asking for your password in the process):
+
+```js
+// In /path/to/config.json
+{
+    "hosts": [
+        { "rootDir": "/path/to/root/one", "host": "localhost", "port": 9999 },
+        { "rootDir": "/path/to/root/two", "host": "dev.example.com", "port": 5678 }
+    ],
+    "sysHostsFile": "/etc/hosts"
+}
+```
+
+Then start your server as usual: `node /path/to/simple-proxy-server/simpleServer.js --config=/path/to/config.json` and hit http://dev.example.com.com:5678
+
+__NOTE:__ This currently only works on Linux or Mac, but we'll add Windows support soon.
 
 
 ### Making it easier with a symlink
