@@ -84,6 +84,16 @@ After cloning the repo (step 1), and installing dependencies (step 2), change to
 
 Then hit [http://localhost:8686](http://localhost:8686) and you should see a picture of Hobbes (from the Calvin and Hobbes comic).
 
+
+## Errors
+
+Are you seeing this error?
+
+`Error: listen EADDRINUSE`
+
+The problem is that since each host is technically a new HTTP server, they all have to be on different ports. Make sure each host (whether using a config file or separate executions of this module) is using a different port, and that that port is not in use by anything else on your system (such as an Apache instance).
+
+
 ##Author
 
 I only wrote pieces of this... but it's seriously so simple that I can't claim credit for much. If you have quesitons, submit an issue or contact me.
