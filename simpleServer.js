@@ -11,13 +11,19 @@ var http = require("http"),
     options = {},
 
     // internal functions
-    main, startHosts, prepareServer, startProxy;
+    main, startHosts, prepareServer, startProxy, getTwoDigitNumber;
 
 
 main = function(args) {
-    var i, l, m;
+    var i, l, m,
+        now = new Date();
 
-    console.log("Starting simple-proxy-server".white + "\nPress CTRL + C to shutdown".blue.bold);
+    console.log(
+        "Starting simple-proxy-server".white + 
+        " on " + now.getFullYear() + "-" + getTwoDigitNumber(now.getMonth() + 1) + "-" + getTwoDigitNumber(now.getDate()) + 
+        " " + getTwoDigitNumber(now.getHours()) + ":" + getTwoDigitNumber(now.getMinutes()) + ":" + getTwoDigitNumber(now.getSeconds()) +
+        "\nPress CTRL + C to shutdown".blue.bold
+    );
 
     // Prepare options
     for (i=2, l=args.length; i<l; ++i) {
@@ -196,6 +202,11 @@ startProxy = function(options) {
         "    simple-proxy-server running at => ".green + (options.host + ":" + options.port).green.bold + (" (proxying " + options.proxyPort + ")").grey +
         (" and serving files from " + options.rootDir).white
     );
+};
+
+getTwoDigitNumber = function(num) {
+    num = (Number(num) || 0);
+    return ((num < 10) ? "0" + num : num);
 };
 
 // Kick off the process
