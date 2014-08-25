@@ -1,5 +1,6 @@
 var http = require("http"),
     httpProxy = require("http-proxy"),
+    httpAuth = require('http-auth'),
     colors = require("colors"),
     url = require("url"),
     path = require("path"),
@@ -74,7 +75,14 @@ main = function(args) {
         // If no config file is specified use individual host options passed in (or defaults)
 
         options.hosts = [
-            { "rootDir": options.rootDir, "host": options.host, "port": options.port }
+            {
+                "rootDir": options.rootDir,
+                "host": options.host,
+                "port": options.port,
+                "authuser": options.authuser,
+                "authpass": options.authpass,
+                "authrealm": options.authrealm
+            }
         ];
 
         prepareServer(options.hosts[0]);
@@ -146,10 +154,21 @@ startHosts = function(hosts) {
 prepareServer = function(options) {
     options = (options || {});
 
-    if (!options.rootDir) { options.rootDir = (options.rootDir || process.cwd()); }
-    if (!options.host) { options.host = "localhost"; }
-    options.port = Number(options.port);
-    if (!options.port) { options.port = 8686; }
+    options.rootDir = options.rootDir || process.cwd();
+    options.host = options.host || "localhost";
+    options.port = Number(options.port) || 8686;
+
+    options.auth = null;
+    if (options.authuser && options.authpass) {
+        console.log(("Establishing basic HTTP authentication: " + options.authuser + " / " + options.authpass).yellow);
+        options.auth = httpAuth.basic({
+                realm: (options.authrealm || "Username and password?")
+            }, function (user, pass, isAuthorized) {
+                console.log(("Authenticating user with: " + user + " / " + pass).yellow);
+                isAuthorized(user === options.authuser && pass === options.authpass);
+            }
+        );
+    }
 
     console.log("Finding unused port for proxy...".white);
     http.createServer().listen(function() {
@@ -165,7 +184,7 @@ startProxy = function(options) {
     httpProxy.createServer(options.proxyPort, options.host).listen(parseInt(options.port, 10));
 
     console.log("Starting http server...".white);
-    http.createServer(function(request, response) {
+    var httpHandler = function(request, response) {
         var uri = url.parse(request.url).pathname,
             filename = path.join(options.rootDir, uri);
       
@@ -196,7 +215,13 @@ startProxy = function(options) {
                 response.end();
             });
         });
-    }).listen(options.proxyPort);
+    };
+
+    if (options.auth) {
+        http.createServer(options.auth, httpHandler).listen(options.proxyPort);
+    } else {
+        http.createServer(httpHandler).listen(options.proxyPort);
+    }
 
     console.log(
         "    simple-proxy-server running at => ".green + (options.host + ":" + options.port).green.bold + (" (proxying " + options.proxyPort + ")").grey +

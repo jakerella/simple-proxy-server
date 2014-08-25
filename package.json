@@ -1,15 +1,16 @@
 {
-    "name": "simple-http-proxy-server",
-    "description": "Run a simple proxy server with proper mime type support for static sites",
-    "version":"0.3.1",
-    "author": {
-        "name" : "Jordan Kasper"
-    },
-    "license" : "MIT",
-    "dependencies": {
-        "http-proxy": "~0.10.3",
-        "colors": "*",
-        "mime": "*",
-        "sudo": "*"
-    }
+  "name": "simple-http-proxy-server",
+  "description": "Run a simple proxy server with proper mime type support for static sites",
+  "version": "0.4.0",
+  "author": {
+    "name": "Jordan Kasper"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "http-proxy": "~0.10.3",
+    "colors": "*",
+    "mime": "*",
+    "sudo": "*",
+    "http-auth": "~2.1.9"
+  }
 }
